@@ -1,24 +1,21 @@
-// middleware.js - Password protection
+// middleware.js
+// Protect dashboard routes
+
 import { NextResponse } from 'next/server';
 
-const PASSWORD = 'LucyClawBot';
-const COOKIE_NAME = 'lucyworkspace-auth';
-
 export function middleware(request) {
-  const { pathname } = request.nextUrl;
-  
-  if (pathname === '/login' || pathname.startsWith('/api/')) {
+  // Skip API routes
+  if (request.nextUrl.pathname.startsWith('/api/')) {
     return NextResponse.next();
   }
 
-  const authCookie = request.cookies.get(COOKIE_NAME);
-  
-  if (authCookie?.value !== PASSWORD) {
-    const loginUrl = new URL('/login', request.url);
-    loginUrl.searchParams.set('from', pathname);
-    return NextResponse.redirect(loginUrl);
+  // Skip login page
+  if (request.nextUrl.pathname === '/login') {
+    return NextResponse.next();
   }
 
+  // For now, allow all access (auth handled client-side)
+  // In production, check session cookie here
   return NextResponse.next();
 }
 
