@@ -1,0 +1,47 @@
+{
+  "gateway": {
+    "bind": "loopback",
+    "port": 18789
+  },
+  "agents": {
+    "defaults": {
+      "model": "moonshot/kimi-k2.5",
+      "subagents": {
+        "model": "moonshot/kimi-k2.5",
+        "allowAgents": ["coordinator", "scout", "quill", "sage", "observer", "xalt"]
+      },
+      "contextPruning": {
+        "mode": "cache-ttl",
+        "ttl": "30m",
+        "keepLastAssistants": 3
+      }
+    }
+  },
+  "messages": {
+    "queue": {
+      "mode": "collect"
+    }
+  },
+  "humanDelay": {
+    "mode": "custom",
+    "minMs": 800,
+    "maxMs": 2500
+  },
+  "heartbeat": {
+    "target": "telegram",
+    "interval": "30m"
+  },
+  "compaction": {
+    "mode": "safeguard",
+    "memoryFlush": {
+      "enabled": true
+    }
+  },
+  "memory": {
+    "backend": "builtin"
+  },
+  "skills": {
+    "verifyOnInstall": true,
+    "autoEnable": false
+  }
+}
